@@ -27,7 +27,7 @@ export default function TopAppBar({
   onAvatarClick,
 }: TopAppBarProps) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
   return (
     <AppBar
       position="static"

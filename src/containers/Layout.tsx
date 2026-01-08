@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Box, useMediaQuery, Drawer } from "@mui/material";
+import { Outlet } from "react-router-dom";
 import Appbar from "../components/Appbar";
 import Sidebar, { type SidebarKey } from "../components/Sidebar";
 
 export default function Layout() {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [active, setActive] = useState<SidebarKey>("dashboard");
   const [desktopOpen, setDesktopOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -36,7 +37,7 @@ export default function Layout() {
               bgcolor: "#fff",
             }}
           >
-            <Sidebar active={active} onChange={setActive} />
+            <Sidebar active={active} />
           </Box>
         )}
 
@@ -55,7 +56,6 @@ export default function Layout() {
         >
           <Sidebar
             active={active}
-            onChange={setActive}
             onItemClick={() => setMobileOpen(false)} 
           />
         </Drawer>
@@ -63,10 +63,8 @@ export default function Layout() {
         {/* Main */}
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
           <Appbar onToggleSidebar={handleToggleSidebar} />
-
           <Box sx={{ p: { xs: 2, md: 3 }, flex: 1 }}>
-            {/* Aquí iría tu <Outlet /> o tus rutas */}
-            {active}
+            <Outlet />
           </Box>
         </Box>
       </Box>

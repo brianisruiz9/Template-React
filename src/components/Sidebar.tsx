@@ -5,10 +5,10 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Badge,
   Typography,
 } from "@mui/material";
 import { Icon } from "@iconify/react";
+import { NavLink } from "react-router-dom";
 import Logo from "../assets/images/diseno-de-logo.png";
 
 export type SidebarKey =
@@ -23,53 +23,55 @@ type SidebarItem = {
   key: SidebarKey;
   label: string;
   icon: React.ReactNode;
-  badge?: number;
-  disabled?: boolean;
+  path: string;
 };
 
 const items: SidebarItem[] = [
   {
     key: "dashboard",
     label: "Dashboard",
-    icon: <Icon icon="solar:graph-up-bold" height={24} width={24} />,
+    icon: <Icon icon="solar:graph-up-bold-duotone" height={24} width={24} />,
+    path: "/dashboard",
   },
   {
     key: "user",
     label: "User",
-    icon: <Icon icon="solar:user-circle-bold" height={24} width={24} />,
+    icon: <Icon icon="solar:user-circle-bold-duotone" height={24} width={24} />,
+    path: "/users",
   },
   {
     key: "product",
     label: "Product",
-    icon: <Icon icon="solar:cart-large-2-bold" height={24} width={24} />,
+    icon: <Icon icon="solar:cart-large-2-bold-duotone" height={24} width={24} />,
+    path: "/products",
   },
   {
     key: "blog",
     label: "Blog",
-    icon: <Icon icon="solar:document-text-bold" height={24} width={24} />,
+    icon: <Icon icon="solar:document-text-bold-duotone" height={24} width={24} />,
+    path: "/blog",
   },
   {
     key: "signin",
     label: "Sign in",
-    icon: <Icon icon="solar:login-3-bold" height={24} width={24} />,
+    icon: <Icon icon="solar:login-3-bold-duotone" height={24} width={24} />,
+    path: "/sign-in",
   },
   {
     key: "notfound",
     label: "Not found",
-    icon: <Icon icon="solar:tuning-square-2-bold" height={24} width={24} />,
-    disabled: false,
+    icon: <Icon icon="solar:tuning-square-2-bold-duotone" height={24} width={24} />,
+    path: "/not-found",
   },
 ];
 
 type SidebarProps = {
   active?: SidebarKey;
-  onChange?: (key: SidebarKey) => void;
   onItemClick?: () => void;
 };
 
 export default function Sidebar({
   active = "dashboard",
-  onChange,
   onItemClick,
 }: SidebarProps) {
   return (
@@ -101,9 +103,9 @@ export default function Sidebar({
           return (
             <ListItemButton
               key={it.key}
-              disabled={it.disabled}
+              component={NavLink}
+              to={it.path}
               onClick={() => {
-                onChange?.(it.key);
                 onItemClick?.(); // 👈 cierra en móvil
               }}
               sx={{
@@ -138,25 +140,6 @@ export default function Sidebar({
                   </Typography>
                 }
               />
-
-              {typeof it.badge === "number" && (
-                <Badge
-                  badgeContent={`+${it.badge}`}
-                  sx={{
-                    "& .MuiBadge-badge": {
-                      right: 6,
-                      top: 12,
-                      transform: "none",
-                      bgcolor: "#ffe7dd",
-                      color: "#9a3b2a",
-                      fontWeight: 700,
-                      borderRadius: 2,
-                      px: 1,
-                      py: 0.2,
-                    },
-                  }}
-                />
-              )}
             </ListItemButton>
           );
         })}
