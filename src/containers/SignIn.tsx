@@ -16,7 +16,6 @@ import Logo from "../assets/images/diseno-de-logo.png";
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const navigate = useNavigate();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +25,7 @@ const Signin = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(form);
+    navigate("/dashboard");
   };
 
   return (
