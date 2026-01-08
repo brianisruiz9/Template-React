@@ -1,3 +1,4 @@
+import { useTheme } from "@mui/material/styles";
 import {
   AppBar,
   Toolbar,
@@ -6,10 +7,12 @@ import {
   Badge,
   Avatar,
   Tooltip,
+  useMediaQuery
 } from "@mui/material";
 import { Icon } from "@iconify/react";
 
 type TopAppBarProps = {
+  onToggleSidebar: () => void;
   notificationsCount?: number;
   onSearchClick?: () => void;
   onNotificationsClick?: () => void;
@@ -17,11 +20,14 @@ type TopAppBarProps = {
 };
 
 export default function TopAppBar({
+  onToggleSidebar,
   notificationsCount = 2,
   onSearchClick,
   onNotificationsClick,
   onAvatarClick,
 }: TopAppBarProps) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <AppBar
       position="static"
@@ -29,12 +35,27 @@ export default function TopAppBar({
       sx={{
         bgcolor: "#fff",
         color: "text.primary",
-        //borderBottom: "1px solid",
-        //borderColor: "divider",
       }}
     >
       <Toolbar sx={{ minHeight: 64 }}>
-        {/* Left side (vacío en tu screenshot) */}
+        {/* Toggle sidebar */}
+        {isMobile && (
+          <Tooltip title="Menu">
+            <IconButton
+              onClick={onToggleSidebar}
+              aria-label="toggle sidebar"
+              edge="start"
+            >
+              <Icon
+                icon="solar:hamburger-menu-outline"
+                width="24"
+                height="24"
+              />
+            </IconButton>
+          </Tooltip>
+        )}
+
+        {/* Left side  */}
         <Box sx={{ flex: 1 }} />
 
         {/* Right actions */}
