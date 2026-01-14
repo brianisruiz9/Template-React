@@ -38,6 +38,10 @@ const theme = createTheme({
       dark: "#B71D18",
       contrastText: "#FFFFFF",
     },
+    background: {
+      default: "#F9FAFB",
+      paper: "#FFFFFF",
+    },
     grey: {
       "50": "#FCFDFD",
       "100": "#F9FAFB",

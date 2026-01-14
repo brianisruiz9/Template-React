@@ -42,13 +42,17 @@ const items: SidebarItem[] = [
   {
     key: "product",
     label: "Product",
-    icon: <Icon icon="solar:cart-large-2-bold-duotone" height={24} width={24} />,
+    icon: (
+      <Icon icon="solar:cart-large-2-bold-duotone" height={24} width={24} />
+    ),
     path: "/products",
   },
   {
     key: "blog",
     label: "Blog",
-    icon: <Icon icon="solar:document-text-bold-duotone" height={24} width={24} />,
+    icon: (
+      <Icon icon="solar:document-text-bold-duotone" height={24} width={24} />
+    ),
     path: "/blog",
   },
   {
@@ -60,20 +64,18 @@ const items: SidebarItem[] = [
   {
     key: "notfound",
     label: "Not found",
-    icon: <Icon icon="solar:tuning-square-2-bold-duotone" height={24} width={24} />,
+    icon: (
+      <Icon icon="solar:tuning-square-2-bold-duotone" height={24} width={24} />
+    ),
     path: "/not-found",
   },
 ];
 
 type SidebarProps = {
-  active?: SidebarKey;
   onItemClick?: () => void;
 };
 
-export default function Sidebar({
-  active = "dashboard",
-  onItemClick,
-}: SidebarProps) {
+export default function Sidebar({ onItemClick }: SidebarProps) {
   return (
     <Box
       sx={{
@@ -98,44 +100,33 @@ export default function Sidebar({
       {/* Menu */}
       <List sx={{ px: 0 }}>
         {items.map((it) => {
-          const selected = it.key === active;
-
           return (
             <ListItemButton
               key={it.key}
               component={NavLink}
               to={it.path}
               onClick={() => {
-                onItemClick?.(); // 👈 cierra en móvil
+                onItemClick?.();
               }}
               sx={{
                 borderRadius: 2,
                 mb: 0.75,
                 py: 1.2,
                 px: 1.25,
-                color: selected ? "#1677ff" : "text.secondary",
-                bgcolor: selected ? "rgba(22, 119, 255, 0.10)" : "transparent",
-                "&:hover": {
-                  bgcolor: selected
-                    ? "rgba(22, 119, 255, 0.14)"
-                    : "action.hover",
+                "&.active": {
+                  color: "#1677ff",
+                  bgcolor: "rgba(22, 119, 255, 0.10)",
+                  "& .MuiListItemIcon-root": {
+                    color: "#1677ff",
+                  },
                 },
               }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 40,
-                  color: selected ? "#1677ff" : "text.disabled",
-                }}
-              >
-                {it.icon}
-              </ListItemIcon>
+              <ListItemIcon sx={{ minWidth: 40 }}>{it.icon}</ListItemIcon>
 
               <ListItemText
                 primary={
-                  <Typography
-                    sx={{ fontWeight: selected ? 700 : 600, fontSize: 15 }}
-                  >
+                  <Typography sx={{ fontSize: 15, color: "#637385" }}>
                     {it.label}
                   </Typography>
                 }

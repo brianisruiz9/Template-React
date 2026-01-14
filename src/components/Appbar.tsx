@@ -33,7 +33,7 @@ export default function TopAppBar({
       position="static"
       elevation={0}
       sx={{
-        bgcolor: "#fff",
+        bgcolor: "background.default",
         color: "text.primary",
       }}
     >

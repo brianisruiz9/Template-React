@@ -3,12 +3,11 @@ import { useTheme } from "@mui/material/styles";
 import { Box, useMediaQuery, Drawer } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Appbar from "../components/Appbar";
-import Sidebar, { type SidebarKey } from "../components/Sidebar";
+import Sidebar from "../components/Sidebar";
 
 export default function Layout() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const [active, setActive] = useState<SidebarKey>("dashboard");
   const [desktopOpen, setDesktopOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -33,11 +32,10 @@ export default function Layout() {
             sx={{
               flexShrink: 0,
               borderRight: "1px solid",
-              borderColor: "divider",
-              bgcolor: "#fff",
+              borderColor: "#EDEFF1",
             }}
           >
-            <Sidebar active={active} />
+            <Sidebar  />
           </Box>
         )}
 
@@ -54,10 +52,7 @@ export default function Layout() {
             },
           }}
         >
-          <Sidebar
-            active={active}
-            onItemClick={() => setMobileOpen(false)} 
-          />
+          <Sidebar onItemClick={() => setMobileOpen(false)} />
         </Drawer>
 
         {/* Main */}
