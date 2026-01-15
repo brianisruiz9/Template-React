@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Signin from "../containers/SignIn";
 import Layout from "../containers/Layout";
 import Dashboard from "../containers/Dashboard";
-import Users from "../containers/Users";
+import Users from "../containers/users/Users";
 
 const SwitchApp = () => {
   return (

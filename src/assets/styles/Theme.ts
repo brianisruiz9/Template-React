@@ -74,13 +74,20 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          padding: "10px 0",
+          padding: "10px 25px",
           borderRadius: "10px",
           textTransform: "none",
           fontWeight: 700,
           backgroundColor: "#19212a",
           "&:hover": { backgroundColor: "#111820" },
           boxShadow: "none",
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: "10px",
         },
       },
     },

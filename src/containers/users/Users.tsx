@@ -12,10 +12,11 @@ import {
 } from "@mui/material";
 import { Icon } from "@iconify/react";
 import { GridColDef } from "@mui/x-data-grid";
-import type { UserRow } from "../types/user";
-import DataGrid from "../components/DataGrid";
+import type { UserRow } from "../../types/user";
+import DataGrid from "../../components/DataGrid";
+import UserForm from "./UserForm";
 
-const rows: UserRow[] = [
+const INITIAL_ROWS: UserRow[] = [
   {
     id: 1,
     name: "Kristen Wunsch",
@@ -76,10 +77,12 @@ const rows: UserRow[] = [
 
 export default function Users() {
   const [search, setSearch] = useState("");
+  const [rows, setRows] = useState<UserRow[]>(INITIAL_ROWS);
   // menú 3 puntos
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedRow, setSelectedRow] = useState<number | null>(null);
+  const [selectedRow, setSelectedRow] = useState<UserRow | null>(null);
   const openMenu = Boolean(anchorEl);
+  const [editOpen, setEditOpen] = useState(false);
 
   const filteredRows = rows.filter((r) => {
     const s = search.toLowerCase().trim();
@@ -91,14 +94,22 @@ export default function Users() {
     );
   });
 
-  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>, id: number) => {
+  const handleOpenMenu = (
+    event: React.MouseEvent<HTMLElement>,
+    row: UserRow
+  ) => {
     setAnchorEl(event.currentTarget);
-    setSelectedRow(id);
+    setSelectedRow(row);
   };
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
-    setSelectedRow(null);
+  };
+
+  const handleOpenEdit = () => {
+    if (!selectedRow) return;
+    setEditOpen(true);
+    handleCloseMenu();
   };
 
   const columns: GridColDef<UserRow>[] = [
@@ -159,10 +170,7 @@ export default function Users() {
       align: "center",
       disableColumnMenu: true,
       renderCell: (params) => (
-        <IconButton
-          size="small"
-          onClick={(e) => handleOpenMenu(e, params.row.id)}
-        >
+        <IconButton size="small" onClick={(e) => handleOpenMenu(e, params.row)}>
           <Icon icon="eva:more-vertical-fill" height="24" width="24" />
         </IconButton>
       ),
@@ -205,12 +213,7 @@ export default function Users() {
 
       {/* Menu 3 puntos */}
       <Menu anchorEl={anchorEl} open={openMenu} onClose={handleCloseMenu}>
-        <MenuItem
-          onClick={() => {
-            alert(`Editar usuario con id ${selectedRow}`);
-            handleCloseMenu();
-          }}
-        >
+        <MenuItem onClick={handleOpenEdit}>
           <ListItemIcon>
             <Icon
               icon="solar:pen-new-round-bold-duotone"
@@ -236,6 +239,14 @@ export default function Users() {
           <ListItemText primary="Delete" />
         </MenuItem>
       </Menu>
+
+      {/* Dialog Edit */}
+      <UserForm
+        selectedRow={selectedRow}
+        editOpen={editOpen}
+        setEditOpen={setEditOpen}
+        setRows={setRows}
+      />
     </Box>
   );
 }
