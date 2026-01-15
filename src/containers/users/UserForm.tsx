@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   MenuItem,
   TextField,
@@ -6,6 +7,8 @@ import {
   Select,
   SelectChangeEvent,
   OutlinedInput,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import DialogForm from "../../components/DialogForm";
 import type { UserRow } from "../../types/user";
@@ -19,7 +22,8 @@ interface UserFormProps {
 
 export default function UserForm(props: UserFormProps) {
   const { selectedRow, editOpen, setEditOpen, setRows } = props;
-  console.log("selectedRow en UserForm:", selectedRow);
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [snackMsg, setSnackMsg] = useState("");
 
   const closeEdit = () => {
     setEditOpen(false);
@@ -41,7 +45,8 @@ export default function UserForm(props: UserFormProps) {
           : r
       )
     );
-
+    setSnackMsg(`Usuario editado exitosamente`);
+    setSnackOpen(true);
     closeEdit();
   };
 
@@ -52,43 +57,59 @@ export default function UserForm(props: UserFormProps) {
   };
 
   return (
-    <DialogForm editOpen={editOpen} closeEdit={closeEdit} saveEdit={saveEdit}>
-      <TextField
-        label="Nombre"
-        defaultValue={selectedRow?.name ?? ""}
-        onChange={(e) => handleChange("name", e.target.value)}
-        fullWidth
-        sx={{ mt: 0.8 }}
-      />
+    <>
+      <DialogForm editOpen={editOpen} closeEdit={closeEdit} saveEdit={saveEdit}>
+        <TextField
+          label="Nombre"
+          defaultValue={selectedRow?.name ?? ""}
+          onChange={(e) => handleChange("name", e.target.value)}
+          fullWidth
+          sx={{ mt: 0.8 }}
+        />
 
-      <TextField
-        label="Company"
-        defaultValue={selectedRow?.company ?? ""}
-        onChange={(e) => handleChange("company", e.target.value)}
-        fullWidth
-      />
+        <TextField
+          label="Company"
+          defaultValue={selectedRow?.company ?? ""}
+          onChange={(e) => handleChange("company", e.target.value)}
+          fullWidth
+        />
 
-      <TextField
-        label="Role"
-        defaultValue={selectedRow?.role ?? ""}
-        onChange={(e) => handleChange("role", e.target.value)}
-        fullWidth
-      />
+        <TextField
+          label="Role"
+          defaultValue={selectedRow?.role ?? ""}
+          onChange={(e) => handleChange("role", e.target.value)}
+          fullWidth
+        />
 
-      <FormControl fullWidth>
-        <InputLabel>Status</InputLabel>
-        <Select
-          label="Status"
-          input={<OutlinedInput label="Status" />}
-          defaultValue={selectedRow?.status ?? "Active"}
-          onChange={(e: SelectChangeEvent) =>
-            handleChange("status", e.target.value)
-          }
+        <FormControl fullWidth>
+          <InputLabel>Status</InputLabel>
+          <Select
+            label="Status"
+            input={<OutlinedInput label="Status" />}
+            defaultValue={selectedRow?.status ?? "Active"}
+            onChange={(e: SelectChangeEvent) =>
+              handleChange("status", e.target.value)
+            }
+          >
+            <MenuItem value="Active">Active</MenuItem>
+            <MenuItem value="Inactive">Inactive</MenuItem>
+          </Select>
+        </FormControl>
+      </DialogForm>
+
+      <Snackbar
+        open={snackOpen}
+        autoHideDuration={2500}
+        onClose={() => setSnackOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackOpen(false)}
+          severity="success"
+          variant="filled"
         >
-          <MenuItem value="Active">Active</MenuItem>
-          <MenuItem value="Inactive">Inactive</MenuItem>
-        </Select>
-      </FormControl>
-    </DialogForm>
+          {snackMsg}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }

@@ -15,6 +15,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import type { UserRow } from "../../types/user";
 import DataGrid from "../../components/DataGrid";
 import UserForm from "./UserForm";
+import DialogDelete from "../../components/DialogDelete";
 
 const INITIAL_ROWS: UserRow[] = [
   {
@@ -83,6 +84,7 @@ export default function Users() {
   const [selectedRow, setSelectedRow] = useState<UserRow | null>(null);
   const openMenu = Boolean(anchorEl);
   const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const filteredRows = rows.filter((r) => {
     const s = search.toLowerCase().trim();
@@ -109,6 +111,12 @@ export default function Users() {
   const handleOpenEdit = () => {
     if (!selectedRow) return;
     setEditOpen(true);
+    handleCloseMenu();
+  };
+
+  const handleOpenDelete = () => {
+    if (!selectedRow) return;
+    setDeleteOpen(true);
     handleCloseMenu();
   };
 
@@ -223,12 +231,7 @@ export default function Users() {
           </ListItemIcon>
           <ListItemText primary="Edit" />
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            alert(`Eliminar usuario con id ${selectedRow}`);
-            handleCloseMenu();
-          }}
-        >
+        <MenuItem onClick={handleOpenDelete}>
           <ListItemIcon>
             <Icon
               icon="solar:trash-bin-trash-bold-duotone"
@@ -245,6 +248,14 @@ export default function Users() {
         selectedRow={selectedRow}
         editOpen={editOpen}
         setEditOpen={setEditOpen}
+        setRows={setRows}
+      />
+
+      {/* Dialog Delete */}
+      <DialogDelete
+        deleteOpen={deleteOpen}
+        setDeleteOpen={setDeleteOpen}
+        selectedRow={selectedRow}
         setRows={setRows}
       />
     </Box>
