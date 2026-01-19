@@ -214,6 +214,7 @@ export default function Users() {
       {/* Table */}
       <DataGrid
         rows={filteredRows}
+        setRows={setRows}
         columns={columns}
         search={search}
         setSearch={setSearch}

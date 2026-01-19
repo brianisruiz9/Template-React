@@ -17,10 +17,11 @@ interface DialogDeleteProps {
   selectedRow: UserRow | null;
   setSelectedRow: (row: UserRow | null) => void;
   setRows: React.Dispatch<React.SetStateAction<UserRow[]>>;
+  message?: string;
 }
 
 export default function DialogDelete(props: DialogDeleteProps) {
-  const { deleteOpen, setDeleteOpen, selectedRow, setSelectedRow, setRows } =
+  const { deleteOpen, setDeleteOpen, selectedRow, setSelectedRow, setRows, message } =
     props;
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMsg, setSnackMsg] = useState("");
@@ -46,7 +47,7 @@ export default function DialogDelete(props: DialogDeleteProps) {
 
         <DialogContent sx={{ pt: 1 }}>
           <Typography sx={{ color: "text.secondary" }}>
-            ¿Seguro que deseas eliminar este usuario?
+            {message}
           </Typography>
         </DialogContent>
 

@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   Paper,
   Box,
@@ -5,21 +6,36 @@ import {
   InputAdornment,
   Tooltip,
   IconButton,
+  Typography,
+  Snackbar,
+  Alert,
 } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
+import type { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { Icon } from "@iconify/react";
 import type { UserRow } from "../types/user";
 import { exportToXlsx } from "../utils/exportToXlsx";
 
 interface CustomDataGridProps {
   rows: UserRow[];
-  columns: GridColDef[];
+  setRows: React.Dispatch<React.SetStateAction<UserRow[]>>;
+  columns: GridColDef<UserRow>[];
   search: string;
   setSearch: (value: string) => void;
 }
 
 export default function CustomDataGrid(props: CustomDataGridProps) {
-  const { rows, columns, search, setSearch } = props;
+  const { rows, setRows, columns, search, setSearch } = props;
+  const [rowSelectionModel, setRowSelectionModel] =
+    React.useState<GridRowSelectionModel>({ type: "include", ids: new Set() });
+  const selectedCount =
+    rowSelectionModel.type === "include"
+      ? rowSelectionModel.ids.size
+      : rows.length - rowSelectionModel.ids.size;
+  const [snackOpen, setSnackOpen] = React.useState(false);
+  const [snackMsg, setSnackMsg] = React.useState("");
+
+  console.log("Row Selection Model:", rowSelectionModel);
 
   const handleExportToXlsx = () => {
     exportToXlsx({
@@ -31,6 +47,19 @@ export default function CustomDataGrid(props: CustomDataGridProps) {
         headerName: col.headerName ?? String(col.field),
       })),
     });
+  };
+
+  const handleDeleteSelected = () => {
+    if (rowSelectionModel.type === "include") {
+      if (rowSelectionModel.ids.size === 0) return;
+      setRows((prev) => prev.filter((r) => !rowSelectionModel.ids.has(r.id)));
+    } else {
+      setRows((prev) => prev.filter((r) => rowSelectionModel.ids.has(r.id)));
+    }
+
+    setRowSelectionModel({ type: "include", ids: new Set() });
+    setSnackMsg("Usuarios eliminados correctamente");
+    setSnackOpen(true);
   };
 
   return (
@@ -90,11 +119,39 @@ export default function CustomDataGrid(props: CustomDataGridProps) {
       </Box>
 
       <Box>
+        {selectedCount > 0 && (
+          <Box
+            sx={{
+              px: 2,
+              py: 1.5,
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              borderTop: "1px solid",
+              borderBottom: "1px solid",
+              borderColor: "divider",
+              bgcolor: "#F9FAFB",
+            }}
+          >
+            <Typography>
+              {selectedCount} row{selectedCount > 1 ? "s" : ""} selected
+            </Typography>
+
+            <Tooltip title="Delete selected">
+              <IconButton size="small" onClick={handleDeleteSelected}>
+                <Icon icon="solar:trash-bin-trash-bold-duotone" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        )}
+
         <DataGrid
           rows={rows}
           columns={columns}
           checkboxSelection
           disableRowSelectionOnClick
+          rowSelectionModel={rowSelectionModel}
+          onRowSelectionModelChange={(m) => setRowSelectionModel(m)}
           initialState={{
             pagination: {
               paginationModel: {
@@ -134,9 +191,26 @@ export default function CustomDataGrid(props: CustomDataGridProps) {
             "& .MuiDataGrid-cell:focus-within": {
               outline: "none",
             },
+
+            "& .MuiDataGrid-selectedRowCount": {
+              display: "none",
+            },
           }}
         />
       </Box>
+      <Snackbar
+        open={snackOpen}
+        autoHideDuration={2500}
+        onClose={() => setSnackOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackOpen(false)}
+          severity="success"
+          variant="filled"
+        >
+          {snackMsg}
+        </Alert>
+      </Snackbar>
     </Paper>
   );
 }
