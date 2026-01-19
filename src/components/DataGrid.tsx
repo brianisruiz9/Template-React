@@ -9,6 +9,7 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Icon } from "@iconify/react";
 import type { UserRow } from "../types/user";
+import { exportToXlsx } from "../utils/exportToXlsx";
 
 interface CustomDataGridProps {
   rows: UserRow[];
@@ -19,6 +20,18 @@ interface CustomDataGridProps {
 
 export default function CustomDataGrid(props: CustomDataGridProps) {
   const { rows, columns, search, setSearch } = props;
+
+  const handleExportToXlsx = () => {
+    exportToXlsx({
+      data: rows,
+      fileName: "users",
+      sheetName: "Users",
+      columns: columns.map((col) => ({
+        field: col.field as keyof UserRow,
+        headerName: col.headerName ?? String(col.field),
+      })),
+    });
+  };
 
   return (
     <Paper
@@ -69,9 +82,9 @@ export default function CustomDataGrid(props: CustomDataGridProps) {
 
         <Box sx={{ flex: 1 }} />
 
-        <Tooltip title="Filter">
-          <IconButton>
-            <Icon icon="solar:magnifer-linear" />
+        <Tooltip title="Export">
+          <IconButton onClick={handleExportToXlsx}>
+            <Icon icon="solar:download-minimalistic-bold" />
           </IconButton>
         </Tooltip>
       </Box>
@@ -82,11 +95,6 @@ export default function CustomDataGrid(props: CustomDataGridProps) {
           columns={columns}
           checkboxSelection
           disableRowSelectionOnClick
-          //rowSelectionModel={selectionModel}
-          //onRowSelectionModelChange={(m) => setSelectionModel(m)}
-          /* pagination
-            paginationModel={paginationModel}
-            onPaginationModelChange={setPaginationModel} */
           initialState={{
             pagination: {
               paginationModel: {
