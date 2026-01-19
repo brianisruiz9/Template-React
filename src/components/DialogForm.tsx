@@ -11,14 +11,15 @@ interface DialogEditProps {
   editOpen: boolean;
   closeEdit: () => void;
   saveEdit: () => void;
+  title: string;
 }
 
 export default function DialogForm(props: DialogEditProps) {
-  const { children, editOpen, closeEdit, saveEdit } = props;
+  const { children, editOpen, closeEdit, saveEdit, title } = props;
 
   return (
     <Dialog open={editOpen} fullWidth maxWidth="sm">
-      <DialogTitle sx={{ fontWeight: 700 }}>Edit user</DialogTitle>
+      <DialogTitle sx={{ fontWeight: 700 }}>{title}</DialogTitle>
 
       <DialogContent sx={{ pt: 1, display: "grid", gap: 2 }}>
         {children}

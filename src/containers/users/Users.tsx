@@ -109,7 +109,7 @@ export default function Users() {
   };
 
   const handleOpenEdit = () => {
-    if (!selectedRow) return;
+    //if (!selectedRow) return;
     setEditOpen(true);
     handleCloseMenu();
   };
@@ -205,7 +205,7 @@ export default function Users() {
           variant="contained"
           startIcon={<Icon icon="mingcute:add-line" />}
           sx={{ px: 2 }}
-          onClick={() => alert("New user")}
+          onClick={handleOpenEdit}
         >
           New user
         </Button>
@@ -246,6 +246,7 @@ export default function Users() {
       {/* Dialog Edit */}
       <UserForm
         selectedRow={selectedRow}
+        setSelectedRow={setSelectedRow}
         editOpen={editOpen}
         setEditOpen={setEditOpen}
         setRows={setRows}
@@ -256,6 +257,7 @@ export default function Users() {
         deleteOpen={deleteOpen}
         setDeleteOpen={setDeleteOpen}
         selectedRow={selectedRow}
+        setSelectedRow={setSelectedRow}
         setRows={setRows}
       />
     </Box>
