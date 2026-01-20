@@ -3,8 +3,8 @@ import { saveAs } from "file-saver";
 
 type ExportOptions<T extends Record<string, unknown>> = {
   data: T[];
-  fileName?: string; // "users"
-  sheetName?: string; // "Users"
+  fileName?: string;
+  sheetName?: string;
   columns?: Array<{
     field: keyof T;
     headerName: string;

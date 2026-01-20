@@ -19,6 +19,7 @@ interface DialogQuestionProps {
   snackMsg?: string;
   snackOpen?: boolean;
   setSnackOpen: (snackOpen: boolean) => void;
+  loading?: boolean;
 }
 
 export default function DialogQuestion(props: DialogQuestionProps) {
@@ -31,6 +32,7 @@ export default function DialogQuestion(props: DialogQuestionProps) {
     snackMsg,
     snackOpen,
     setSnackOpen,
+    loading,
   } = props;
 
   return (
@@ -43,10 +45,15 @@ export default function DialogQuestion(props: DialogQuestionProps) {
         </DialogContent>
 
         <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={handleConfirm} variant="contained">
+          <Button
+            onClick={handleConfirm}
+            variant="contained"
+            loading={loading}
+            loadingPosition="start"
+          >
             Confirm
           </Button>
-          <Button onClick={handleCancel} variant="contained">
+          <Button onClick={handleCancel} variant="contained" disabled={loading}>
             Cancel
           </Button>
         </DialogActions>

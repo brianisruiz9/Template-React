@@ -14,8 +14,7 @@ import Logo from "../assets/images/diseno-de-logo.png";
 export type SidebarKey =
   | "dashboard"
   | "user"
-  | "product"
-  | "blog"
+  | "posts"
   | "signin"
   | "notfound";
 
@@ -40,20 +39,12 @@ const items: SidebarItem[] = [
     path: "/users",
   },
   {
-    key: "product",
-    label: "Product",
-    icon: (
-      <Icon icon="solar:cart-large-2-bold-duotone" height={24} width={24} />
-    ),
-    path: "/products",
-  },
-  {
-    key: "blog",
-    label: "Blog",
+    key: "posts",
+    label: "Posts",
     icon: (
       <Icon icon="solar:document-text-bold-duotone" height={24} width={24} />
     ),
-    path: "/blog",
+    path: "/posts",
   },
   {
     key: "signin",

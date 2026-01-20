@@ -34,8 +34,6 @@ export default function UserForm(props: UserFormProps) {
     verified: false,
   });
 
-  console.log("Form state:", form);
-
   useEffect(() => {
     if (selectedRow) {
       // 👉 MODO EDITAR

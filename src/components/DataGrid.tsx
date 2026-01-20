@@ -13,19 +13,22 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import type { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { Icon } from "@iconify/react";
-import type { UserRow } from "../types/user";
 import { exportToXlsx } from "../utils/exportToXlsx";
 
-interface CustomDataGridProps {
-  rows: UserRow[];
-  setRows: React.Dispatch<React.SetStateAction<UserRow[]>>;
-  columns: GridColDef<UserRow>[];
+interface CustomDataGridProps<T extends { id: number | string }> {
+  rows: T[];
+  setRows: React.Dispatch<React.SetStateAction<T[]>>;
+  columns: GridColDef<T>[];
   search: string;
   setSearch: (value: string) => void;
+  loading?: boolean;
+  tableName?: string;
 }
 
-export default function CustomDataGrid(props: CustomDataGridProps) {
-  const { rows, setRows, columns, search, setSearch } = props;
+export default function CustomDataGrid<T extends { id: number | string }>(
+  props: CustomDataGridProps<T>
+) {
+  const { rows, setRows, columns, search, setSearch, loading, tableName } = props;
   const [rowSelectionModel, setRowSelectionModel] =
     React.useState<GridRowSelectionModel>({ type: "include", ids: new Set() });
   const selectedCount =
@@ -35,15 +38,13 @@ export default function CustomDataGrid(props: CustomDataGridProps) {
   const [snackOpen, setSnackOpen] = React.useState(false);
   const [snackMsg, setSnackMsg] = React.useState("");
 
-  console.log("Row Selection Model:", rowSelectionModel);
-
   const handleExportToXlsx = () => {
     exportToXlsx({
       data: rows,
-      fileName: "users",
-      sheetName: "Users",
+      fileName: tableName ?? "data",
+      sheetName: tableName ?? "data",
       columns: columns.map((col) => ({
-        field: col.field as keyof UserRow,
+        field: col.field as keyof T,
         headerName: col.headerName ?? String(col.field),
       })),
     });
@@ -146,6 +147,7 @@ export default function CustomDataGrid(props: CustomDataGridProps) {
         )}
 
         <DataGrid
+          loading={loading}
           rows={rows}
           columns={columns}
           checkboxSelection
