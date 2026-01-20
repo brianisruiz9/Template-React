@@ -6,3 +6,16 @@ export type UserRow = {
   verified: boolean;
   status: "Active" | "Inactive";
 };
+
+export type AuthUser = {
+  id: number;
+  name: string;
+  email: string;
+  role: number;
+  permissions: unknown[];
+};
+
+export type AuthState = {
+  user: AuthUser | null;
+  token: string | null;
+};

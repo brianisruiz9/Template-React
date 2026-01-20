@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   AppBar,
@@ -7,16 +8,24 @@ import {
   Badge,
   Avatar,
   Tooltip,
-  useMediaQuery
+  useMediaQuery,
+  Menu,
+  MenuItem,
+  Typography,
+  Divider,
+  ListItemIcon,
 } from "@mui/material";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { logout } from "../store/auth/authSlice";
+import DialogQuestion from "./DialogQuestion";
 
 type TopAppBarProps = {
   onToggleSidebar: () => void;
   notificationsCount?: number;
   onSearchClick?: () => void;
   onNotificationsClick?: () => void;
-  onAvatarClick?: () => void;
 };
 
 export default function TopAppBar({
@@ -24,10 +33,30 @@ export default function TopAppBar({
   notificationsCount = 2,
   onSearchClick,
   onNotificationsClick,
-  onAvatarClick,
 }: TopAppBarProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const user = useAppSelector((s) => s.auth.user);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleConfirmLogout = () => {
+    dispatch(logout());
+    handleCloseMenu();
+    navigate("/sign-in", { replace: true });
+  };
+
   return (
     <AppBar
       position="static"
@@ -97,7 +126,7 @@ export default function TopAppBar({
           {/* Avatar with ring */}
           <Tooltip title="Account">
             <IconButton
-              onClick={onAvatarClick}
+              onClick={handleOpenMenu}
               aria-label="account"
               sx={{ p: 0 }}
             >
@@ -118,13 +147,57 @@ export default function TopAppBar({
                     height: 34,
                   }}
                 >
-                  U
+                  {user?.name?.charAt(0).toUpperCase() ?? "U"}
                 </Avatar>
               </Box>
             </IconButton>
           </Tooltip>
         </Box>
       </Toolbar>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleCloseMenu}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        PaperProps={{
+          sx: {
+            mt: 1,
+            minWidth: 200,
+            borderRadius: 2,
+          },
+        }}
+      >
+        {/* Usuario */}
+        <Box sx={{ px: 2, py: 1 }}>
+          <Typography sx={{ fontWeight: 700 }}>
+            {user?.name ?? "Usuario"}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {user?.email}
+          </Typography>
+        </Box>
+
+        <Divider />
+
+        {/* Logout */}
+        <MenuItem onClick={() => setOpenDialog(true)}>
+          <ListItemIcon>
+            <Icon icon="solar:logout-2-bold-duotone" height={24} width={24} />
+          </ListItemIcon>
+          Cerrar sesión
+        </MenuItem>
+      </Menu>
+
+      <DialogQuestion
+        dialogOpen={openDialog}
+        setDialogOpen={setOpenDialog}
+        message={"¿Estás seguro de que deseas cerrar sesión?"}
+        tittle={"Cerrar sesión"}
+        handleConfirm={handleConfirmLogout}
+        handleCancel={() => setOpenDialog(false)}
+        setSnackOpen={() => {}}
+      />
     </AppBar>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -11,12 +11,23 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import type { AuthUser } from "../types/user";
 import Logo from "../assets/images/diseno-de-logo.png";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { loginSuccess } from "../store/auth/authSlice";
 
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const token = useAppSelector((s) => s.auth.token);
+
+  useEffect(() => {
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, [token, navigate]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -24,8 +35,24 @@ const Signin = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(form);
-    navigate("/dashboard");
+    try {
+      if (form.email === "admin@email.com" && form.password === "123") {
+        const user: AuthUser = {
+          id: 1,
+          name: "Admin",
+          email: form.email,
+          role: 1,
+          permissions: [1, 2, 3, 4, 5],
+        };
+        const dataLogin = { token: "token-admin-123", user };
+        dispatch(loginSuccess(dataLogin));
+        navigate("/dashboard");
+      } else {
+        alert("Invalid credentials. Try");
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (

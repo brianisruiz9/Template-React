@@ -1,22 +1,28 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Box, useMediaQuery, Drawer } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../store/hooks";
 import Appbar from "../components/Appbar";
 import Sidebar from "../components/Sidebar";
 
 export default function Layout() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const navigate = useNavigate();
   const [desktopOpen, setDesktopOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const token = useAppSelector((s) => s.auth.token);
 
   useEffect(() => {
     if (isMobile) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setMobileOpen(false);
     }
-  }, [isMobile]);
+    if (!token) {
+      navigate("/sign-in");
+    }
+  }, [isMobile, token, navigate]);
 
   const handleToggleSidebar = () => {
     if (isMobile) setMobileOpen((v) => !v);
@@ -35,7 +41,7 @@ export default function Layout() {
               borderColor: "#EDEFF1",
             }}
           >
-            <Sidebar  />
+            <Sidebar />
           </Box>
         )}
 
