@@ -89,9 +89,6 @@ export default function UserForm(props: UserFormProps) {
       );
       setSnackMsg(`Usuario editado exitosamente`);
     } else {
-      console.log("Crear nuevo usuario,", form);
-      //const nextId = Math.max(0, ...rows.map((r) => r.id)) + 1;
-
       setRows((prev) => [
         ...prev,
         {

@@ -1,23 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type UIState = {
-  drawerOpen: boolean;
-  breadcrumb: string[];
-  page: number;
-  rowsPerPage: number;
-  selected: string | null;
-  expanded: string[];
-  previousRouter: string | null;
-};
+const persistedUI = JSON.parse(localStorage.getItem("ui_v1") ?? "null") as {
+  mode?: string;
+  drawerOpen?: boolean;
+} | null;
 
-const initialState: UIState = {
-  drawerOpen: true,
+const initialState = {
+  drawerOpen: persistedUI?.drawerOpen ?? false,
   breadcrumb: [],
-  page: 0,
-  rowsPerPage: 5,
-  selected: null,
-  expanded: [],
-  previousRouter: null,
+  mode: persistedUI?.mode ?? "light",
 };
 
 const uiSlice = createSlice({
@@ -27,35 +18,15 @@ const uiSlice = createSlice({
     setDrawerOpen(state, action: PayloadAction<boolean>) {
       state.drawerOpen = action.payload;
     },
-    setBreadcrumb(state, action: PayloadAction<string[]>) {
+    /* setBreadcrumb(state, action: PayloadAction<string[]>) {
       state.breadcrumb = action.payload;
-    },
-    setPage(state, action: PayloadAction<number>) {
-      state.page = action.payload;
-    },
-    setRowsPerPage(state, action: PayloadAction<number>) {
-      state.rowsPerPage = action.payload;
-    },
-    setSelected(state, action: PayloadAction<string | null>) {
-      state.selected = action.payload;
-    },
-    setExpanded(state, action: PayloadAction<string[]>) {
-      state.expanded = action.payload;
-    },
-    setPreviousRouter(state, action: PayloadAction<string | null>) {
-      state.previousRouter = action.payload;
+    }, */
+    setMode(state, action: PayloadAction<string>) {
+      state.mode = action.payload;
     },
   },
 });
 
-export const {
-  setDrawerOpen,
-  setBreadcrumb,
-  setPage,
-  setRowsPerPage,
-  setSelected,
-  setExpanded,
-  setPreviousRouter,
-} = uiSlice.actions;
+export const { setDrawerOpen, setMode } = uiSlice.actions;
 
 export default uiSlice.reducer;

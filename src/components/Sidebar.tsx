@@ -10,6 +10,7 @@ import {
 import { Icon } from "@iconify/react";
 import { NavLink } from "react-router-dom";
 import Logo from "../assets/images/diseno-de-logo.png";
+import { useAppSelector } from "../store/hooks";
 
 export type SidebarKey =
   | "dashboard"
@@ -67,6 +68,8 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ onItemClick }: SidebarProps) {
+  const mode = useAppSelector((s) => s.ui.mode);
+  
   return (
     <Box
       sx={{
@@ -117,7 +120,7 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
 
               <ListItemText
                 primary={
-                  <Typography sx={{ fontSize: 15, color: "#637385" }}>
+                  <Typography sx={{ fontSize: 15, color: mode === "light" ? "#637385" : "#FFFFFF" }}>
                     {it.label}
                   </Typography>
                 }

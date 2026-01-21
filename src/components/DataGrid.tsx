@@ -14,6 +14,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import type { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { Icon } from "@iconify/react";
 import { exportToXlsx } from "../utils/exportToXlsx";
+import { useAppSelector } from "../store/hooks";
+
 
 interface CustomDataGridProps<T extends { id: number | string }> {
   rows: T[];
@@ -37,6 +39,7 @@ export default function CustomDataGrid<T extends { id: number | string }>(
       : rows.length - rowSelectionModel.ids.size;
   const [snackOpen, setSnackOpen] = React.useState(false);
   const [snackMsg, setSnackMsg] = React.useState("");
+  const mode = useAppSelector((s) => s.ui.mode);
 
   const handleExportToXlsx = () => {
     exportToXlsx({
@@ -131,7 +134,7 @@ export default function CustomDataGrid<T extends { id: number | string }>(
               borderTop: "1px solid",
               borderBottom: "1px solid",
               borderColor: "divider",
-              bgcolor: "#F9FAFB",
+              bgcolor: mode === "light" ? "#F9FAFB" : "#0F1214",
             }}
           >
             <Typography>
@@ -167,11 +170,11 @@ export default function CustomDataGrid<T extends { id: number | string }>(
 
             /* HEADER */
             "& .MuiDataGrid-columnHeaders": {
-              color: "#637381",
+              color: mode === "light" ? "#637381" : "#FFFFFF",
             },
             "& .MuiDataGrid-columnHeader": {
               outline: "none",
-              backgroundColor: "#F4F6F8",
+              backgroundColor: mode === "light" ? "#F4F6F8" : "#252526",
             },
             "& .MuiDataGrid-columnHeaderTitle": {
               fontWeight: 700,
@@ -185,7 +188,7 @@ export default function CustomDataGrid<T extends { id: number | string }>(
 
             /* ROWS */
             "& .MuiDataGrid-row:hover": {
-              backgroundColor: "#F9FAFB",
+              backgroundColor: mode === "light" ? "#F9FAFB" : "#0F1214",
             },
             "& .MuiDataGrid-cell:focus, & .MuiDataGrid-columnHeader:focus": {
               outline: "none",

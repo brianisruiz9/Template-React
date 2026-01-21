@@ -19,6 +19,7 @@ import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { logout } from "../store/auth/authSlice";
+import { setMode } from "../store/ui/uiSlice";
 import DialogQuestion from "./DialogQuestion";
 
 type TopAppBarProps = {
@@ -39,6 +40,7 @@ export default function TopAppBar({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const user = useAppSelector((s) => s.auth.user);
+  const modeApp = useAppSelector((s) => s.ui.mode);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [openDialog, setOpenDialog] = useState(false);
@@ -55,6 +57,16 @@ export default function TopAppBar({
     dispatch(logout());
     handleCloseMenu();
     navigate("/sign-in", { replace: true });
+  };
+
+  const handleDarkMode = () => {
+    if (modeApp === "dark") {
+      dispatch(setMode("light"));
+      return;
+    } else if (modeApp === "light") {
+      dispatch(setMode("dark"));
+      return;
+    }
   };
 
   return (
@@ -89,17 +101,25 @@ export default function TopAppBar({
 
         {/* Right actions */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          {/* Search */}
-          <Tooltip title="Search">
+          {/* Language */}
+          <Tooltip title="Language">
             <IconButton onClick={onSearchClick} aria-label="search">
-              <Icon icon="solar:magnifer-outline" width="24" height="24" />
+              <Icon icon="solar:global-bold-duotone" width="24" height="24" />
             </IconButton>
           </Tooltip>
 
-          {/* Language flag */}
+          {/* Dark mode */}
           <Tooltip title="Dark Mode">
-            <IconButton aria-label="language" sx={{ p: 0.5 }}>
-              <Icon icon="solar:moon-bold" width="24" height="24" />
+            <IconButton
+              aria-label="dark"
+              sx={{ p: 0.5 }}
+              onClick={handleDarkMode}
+            >
+              <Icon
+                icon={modeApp === "light" ? "solar:moon-bold" : "solar:sun-2-bold-duotone"}
+                width="24"
+                height="24"
+              />
             </IconButton>
           </Tooltip>
 

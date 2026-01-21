@@ -38,7 +38,7 @@ export default function Layout() {
             sx={{
               flexShrink: 0,
               borderRight: "1px solid",
-              borderColor: "#EDEFF1",
+              borderColor: "divider",
             }}
           >
             <Sidebar />

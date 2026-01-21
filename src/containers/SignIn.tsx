@@ -22,6 +22,7 @@ const Signin = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const token = useAppSelector((s) => s.auth.token);
+  const mode = useAppSelector((s) => s.ui.mode);
 
   useEffect(() => {
     if (token) {
@@ -62,8 +63,7 @@ const Signin = () => {
         display: "grid",
         placeItems: "center",
         px: 2,
-        background:
-          "linear-gradient(90deg, #eef2f5 0%, #eef2f5 55%, #f3e6e0 100%)",
+        background: "background.default",
       }}
     >
       {/* Logo */}
@@ -93,7 +93,7 @@ const Signin = () => {
           borderRadius: 4,
           p: { xs: 3, sm: 5 },
           boxShadow: "0 18px 60px rgba(0,0,0,.10)",
-          bgcolor: "white",
+          bgcolor: mode === "light" ? "#FFFFFF" : "#1B1E20",
         }}
       >
         <Box
