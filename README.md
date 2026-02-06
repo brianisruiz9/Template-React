@@ -1,73 +1,69 @@
-# React + TypeScript + Vite
+# Template React + MUI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plantilla de panel administrativo construida con React, TypeScript, Vite y Material UI. Incluye autenticacion demo, layout responsivo, tablas con DataGrid, exportacion a Excel e internacionalizacion.
 
-Currently, two official plugins are available:
+## Funcionalidades
+- Login simulado con persistencia en localStorage.
+- Dashboard con tarjetas de estadisticas.
+- Usuarios: busqueda, seleccion multiple, eliminacion y formulario en dialogo.
+- Posts: CRUD contra JSONPlaceholder (las escrituras no persisten).
+- DataGrid reutilizable con exportacion a XLSX.
+- Tema claro/oscuro y soporte i18n (es/en).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Stack
+- React 19 + TypeScript
+- Vite 7
+- MUI (Material UI) + MUI X Data Grid
+- Redux Toolkit
+- React Router
+- Axios
+- i18next
 
-## React Compiler
+## Requisitos
+- Node.js LTS recomendado
+- npm
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Instalacion
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Desarrollo
+```bash
+npm run dev
 ```
+
+## Build
+```bash
+npm run build
+npm run preview
+```
+
+## Credenciales demo
+- Email: `admin@email.com`
+- Password: `123`
+
+## Rutas principales
+- `/sign-in`
+- `/dashboard`
+- `/users`
+- `/posts`
+
+## API
+Los posts se consumen desde JSONPlaceholder (`https://jsonplaceholder.typicode.com`). Las operaciones de crear/editar/eliminar son simuladas y no persisten en el servidor.
+
+## Estructura del proyecto
+- `src/components`: componentes reutilizables (Appbar, Sidebar, DataGrid, Dialogs)
+- `src/containers`: pantallas (Dashboard, Users, Posts, SignIn)
+- `src/i18n`: configuracion de idiomas y traducciones
+- `src/store`: Redux store y slices
+- `src/utils`: helpers (exportacion a XLSX)
+
+## Scripts
+- `npm run dev`: inicia el servidor de desarrollo
+- `npm run build`: build de produccion
+- `npm run preview`: previsualiza el build
+- `npm run lint`: lint del proyecto
+
+## Notas
+El estado de autenticacion y preferencias de UI (tema/idioma) se guardan en localStorage.
