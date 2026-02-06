@@ -4,7 +4,7 @@ import { Card, CardContent, Box, Typography } from "@mui/material";
 type StatCardProps = {
   title: string;
   value: string;
-  change?: number; // +2.6, -0.1
+  change?: number;
   icon?: React.ReactNode;
 };
 

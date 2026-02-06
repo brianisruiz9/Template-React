@@ -15,8 +15,10 @@ import type { AuthUser } from "../types/user";
 import Logo from "../assets/images/diseno-de-logo.png";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { loginSuccess } from "../store/auth/authSlice";
+import { useTranslation } from "react-i18next";
 
 const Signin = () => {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -103,13 +105,13 @@ const Signin = () => {
         >
           <Box sx={{ textAlign: "center", mb: 1 }}>
             <Typography variant="h5" sx={{ fontWeight: 700 }}>
-              Sign in
+              {t("signin.sign_in")}
             </Typography>
 
             <Typography variant="body2" sx={{ mt: 1, color: "text.secondary" }}>
-              Don&apos;t have an account?{" "}
+              {t("signin.no_account")}{" "}
               <Link href="#" underline="none" sx={{ fontWeight: 700 }}>
-                Get started
+                {t("signin.signup")}
               </Link>
             </Typography>
           </Box>
@@ -125,7 +127,7 @@ const Signin = () => {
             <TextField
               fullWidth
               name="email"
-              label="Email address"
+              label={t("signin.email")}
               value={form.email}
               onChange={handleInput}
               sx={{ mb: 3 }}
@@ -137,13 +139,13 @@ const Signin = () => {
               underline="none"
               sx={{ mb: 1.5 }}
             >
-              Forgot password?
+              {t("signin.forget_pass")}
             </Link>
 
             <TextField
               fullWidth
               name="password"
-              label="Password"
+              label={t("signin.password")}
               type={showPassword ? "text" : "password"}
               value={form.password}
               onChange={handleInput}
@@ -171,7 +173,7 @@ const Signin = () => {
             />
 
             <Button fullWidth size="large" type="submit" variant="contained">
-              Sign in
+              {t("signin.sign_in")}
             </Button>
           </Box>
         </Box>

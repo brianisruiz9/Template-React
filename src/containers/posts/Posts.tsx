@@ -12,12 +12,14 @@ import {
 import { Icon } from "@iconify/react";
 import { GridColDef } from "@mui/x-data-grid";
 import type { Post } from "../../types/post";
+import { useTranslation } from "react-i18next";
 import DataGrid from "../../components/DataGrid";
 import api from "../../api";
 import PostForm from "./PostForm";
 import DialogQuestion from "../../components/DialogQuestion";
 
 export default function Posts() {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const [rows, setRows] = useState<Post[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -68,13 +70,13 @@ export default function Posts() {
     try {
       await api.delete(`/posts/${selectedRow.id}`);
       setRows((prev) => prev.filter((r) => r.id !== selectedRow.id));
-      setSnackMsg(`Usuario eliminado exitosamente`);
+      setSnackMsg(t("alerts.post_delete_success"));
       setSnackOpen(true);
       closeDelete();
       setSelectedRow(null);
       setLoading(false);
     } catch (e) {
-      setSnackMsg(`${e}` || "Error eliminando");
+      setSnackMsg(`${e}` || t("alerts.post_delete_error"));
       setSnackOpen(true);
       setLoading(false);
     }
@@ -89,19 +91,19 @@ export default function Posts() {
     { field: "id", headerName: "ID", width: 90, disableColumnMenu: true },
     {
       field: "title",
-      headerName: "Title",
+      headerName: t("posts.title"),
       flex: 1,
       disableColumnMenu: true,
     },
     {
       field: "userId",
-      headerName: "User",
+      headerName: t("posts.user"),
       width: 110,
       disableColumnMenu: true,
     },
     {
       field: "body",
-      headerName: "Body",
+      headerName: t("posts.body"),
       flex: 1,
       disableColumnMenu: true,
     },
@@ -145,7 +147,7 @@ export default function Posts() {
         }}
       >
         <Typography variant="h5" sx={{ flexGrow: 1, fontWeight: 700 }}>
-          Posts
+          {t("posts.posts")}
         </Typography>
 
         <Button
@@ -155,7 +157,7 @@ export default function Posts() {
           sx={{ px: 2 }}
           onClick={handleOpenEdit}
         >
-          New post
+          {t("posts.new_post")}
         </Button>
       </Box>
 
@@ -179,7 +181,7 @@ export default function Posts() {
               height="24"
             />
           </ListItemIcon>
-          <ListItemText primary="Edit" />
+          <ListItemText primary={t("datagrid.edit")} />
         </MenuItem>
         <MenuItem onClick={handleOpenDelete}>
           <ListItemIcon>
@@ -189,7 +191,7 @@ export default function Posts() {
               height="24"
             />
           </ListItemIcon>
-          <ListItemText primary="Delete" />
+          <ListItemText primary={t("datagrid.delete")} />
         </MenuItem>
       </Menu>
 
@@ -208,8 +210,8 @@ export default function Posts() {
         setDialogOpen={setDeleteOpen}
         handleConfirm={handleDelete}
         handleCancel={closeDelete}
-        message={`Are you sure you want to delete the post titled "${selectedRow?.title}"?`}
-        tittle={"Delete post"}
+        message={t("alerts.delete_post_question")}
+        tittle={t("posts.delete_post")}
         snackMsg={snackMsg}
         snackOpen={snackOpen}
         setSnackOpen={setSnackOpen}

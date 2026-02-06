@@ -8,6 +8,7 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 interface DialogQuestionProps {
   dialogOpen: boolean;
@@ -34,6 +35,7 @@ export default function DialogQuestion(props: DialogQuestionProps) {
     setSnackOpen,
     loading,
   } = props;
+  const { t } = useTranslation();
 
   return (
     <>
@@ -51,10 +53,10 @@ export default function DialogQuestion(props: DialogQuestionProps) {
             loading={loading}
             loadingPosition="start"
           >
-            Confirm
+            {t("buttons.confirm")}
           </Button>
           <Button onClick={handleCancel} variant="contained" disabled={loading}>
-            Cancel
+            {t("buttons.cancel")}
           </Button>
         </DialogActions>
       </Dialog>

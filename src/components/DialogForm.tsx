@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 interface DialogEditProps {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ interface DialogEditProps {
 
 export default function DialogForm(props: DialogEditProps) {
   const { children, editOpen, closeEdit, saveEdit, title, loading } = props;
+  const { t } = useTranslation();
 
   return (
     <Dialog open={editOpen} fullWidth maxWidth="sm">
@@ -33,10 +35,10 @@ export default function DialogForm(props: DialogEditProps) {
           loading={loading}
           loadingPosition="start"
         >
-          Save
+          {t("buttons.save")}
         </Button>
         <Button onClick={closeEdit} variant="contained" disabled={loading}>
-          Cancel
+          {t("buttons.cancel")}
         </Button>
       </DialogActions>
     </Dialog>

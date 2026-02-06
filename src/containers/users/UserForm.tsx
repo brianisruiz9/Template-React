@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import DialogForm from "../../components/DialogForm";
 import type { UserRow } from "../../types/user";
+import { useTranslation } from "react-i18next";
 
 interface UserFormProps {
   selectedRow: UserRow | null;
@@ -23,6 +24,7 @@ interface UserFormProps {
 
 export default function UserForm(props: UserFormProps) {
   const { selectedRow, setSelectedRow, editOpen, setEditOpen, setRows } = props;
+  const { t } = useTranslation();
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMsg, setSnackMsg] = useState("");
   const [form, setForm] = useState({
@@ -123,10 +125,10 @@ export default function UserForm(props: UserFormProps) {
         editOpen={editOpen}
         closeEdit={closeEdit}
         saveEdit={saveEdit}
-        title={selectedRow ? "Edit user" : "New user"}
+        title={selectedRow ? t("users.edit_user") : t("users.create_user")}
       >
         <TextField
-          label="Nombre"
+          label={t("users.name")}
           defaultValue={form?.name}
           onChange={(e) => handleChange("name", e.target.value)}
           fullWidth
@@ -134,24 +136,24 @@ export default function UserForm(props: UserFormProps) {
         />
 
         <TextField
-          label="Company"
+          label={t("users.company")}
           defaultValue={form?.company}
           onChange={(e) => handleChange("company", e.target.value)}
           fullWidth
         />
 
         <TextField
-          label="Role"
+          label={t("users.role")}
           defaultValue={form?.role}
           onChange={(e) => handleChange("role", e.target.value)}
           fullWidth
         />
 
         <FormControl fullWidth>
-          <InputLabel>Status</InputLabel>
+          <InputLabel>{t("users.status")}</InputLabel>
           <Select
-            label="Status"
-            input={<OutlinedInput label="Status" />}
+            label={t("users.status")}
+            input={<OutlinedInput label={t("users.status")} />}
             defaultValue={form?.status}
             onChange={(e: SelectChangeEvent) =>
               handleChange("status", e.target.value)

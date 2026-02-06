@@ -3,6 +3,7 @@ import { TextField, Snackbar, Alert } from "@mui/material";
 import DialogForm from "../../components/DialogForm";
 import type { Post } from "../../types/post";
 import api from "../../api";
+import { useTranslation } from "react-i18next";
 
 interface PostFormProps {
   selectedRow: Post | null;
@@ -14,6 +15,7 @@ interface PostFormProps {
 
 export default function UserForm(props: PostFormProps) {
   const { selectedRow, setSelectedRow, editOpen, setEditOpen, setRows } = props;
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMsg, setSnackMsg] = useState("");
@@ -68,12 +70,12 @@ export default function UserForm(props: PostFormProps) {
       setRows((prev) =>
         prev.map((r) => (r.id === selectedRow.id ? { ...r, ...data } : r))
       );
-      setSnackMsg("Post editado exitosamente");
+      setSnackMsg(t("alerts.post_edit_success"));
     } else {
       //crear
       const { data } = await api.post<Post>("/posts", form);
       setRows((prev) => [...prev, data]);
-      setSnackMsg("Post creado exitosamente");
+      setSnackMsg(t("alerts.post_edit_success"));
     }
     setSnackOpen(true);
     setSelectedRow(null);
@@ -87,11 +89,11 @@ export default function UserForm(props: PostFormProps) {
         editOpen={editOpen}
         closeEdit={closeEdit}
         saveEdit={saveEdit}
-        title={selectedRow ? "Edit post" : "New post"}
+        title={selectedRow ? t("posts.edit_post") : t("posts.new_post")}
         loading={loading}
       >
         <TextField
-          label="Title"
+          label={t("posts.title")}
           defaultValue={form?.title}
           onChange={(e) => handleChange("title", e.target.value)}
           fullWidth
@@ -99,7 +101,7 @@ export default function UserForm(props: PostFormProps) {
         />
 
         <TextField
-          label="Body"
+          label={t("posts.body")}
           defaultValue={form?.body}
           onChange={(e) => handleChange("body", e.target.value)}
           fullWidth

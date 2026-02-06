@@ -1,0 +1,84 @@
+{
+  "login": {
+    "Sign In": "Iniciar sesión",
+    "Email": "Dirección de correo electrónico",
+    "Password": "Contraseña",
+    "Forgot password?": "¿Olvidaste tu contraseña?",
+    "Dont have an account? Sign Up": "No tienes una cuenta? Regístrate"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "users": "Usuarios",
+    "posts": "Publicaciones",
+    "sign_in": "Iniciar sesión",
+    "not_found": "No encontrado",
+    "language": "Idioma",
+    "dark_mode": "Modo oscuro",
+    "light_mode": "Modo claro",
+    "notifications": "Notificaciones",
+    "account": "Cuenta",
+    "logout": "Cerrar sesión",
+    "menu": "Menú"
+  },
+  "dashboard": {
+    "Weekly sales": "Ventas semanales",
+    "New users": "Nuevos usuarios",
+    "Purchase orders": "Órdenes de compra",
+    "Messages": "Mensajes"
+  },
+  "datagrid": {
+    "export": "Exportar",
+    "actions": "Acciones",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "row": "fila",
+    "selected": "seleccionada"
+  },
+  "users": {
+    "users": "Usuarios",
+    "new_user": "Nuevo usuario",
+    "edit_user": "Editar usuario",
+    "create_user": "Crear usuario",
+    "search_user": "Buscar usuario...",
+    "delete_user": "Eliminar usuario",
+    "name": "Nombre",
+    "company": "Empresa",
+    "role": "Rol",
+    "verified": "Verificado",
+    "status": "Estado"
+  },
+  "posts": {
+    "posts": "Publicaciones",
+    "new_post": "Nueva publicación",
+    "search_post": "Buscar publicación...",
+    "title": "Título",
+    "user": "Usuario",
+    "body": "Contenido",
+    "edit_post": "Editar publicación",
+    "delete_post": "Eliminar publicación"
+  },
+  "buttons": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "confirm": "Confirmar"
+  },
+  "alerts": {
+    "delete_success": "Usuario eliminado con éxito.",
+    "delete_error": "Error al eliminar el usuario.",
+    "question_logout": "¿Estás seguro de que deseas cerrar sesión?",
+    "delete_post_question": "¿Estás seguro de que deseas eliminar esta publicación?",
+    "post_delete_success": "Publicación eliminada con éxito.",
+    "post_delete_error": "Error al eliminar la publicación.",
+    "post_edit_success": "Publicación guardada con éxito.",
+    "post_edit_error": "Error al guardar la publicación."
+  },
+  "signin": {
+    "sign_in": "Iniciar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forget_pass": "¿Olvidaste tu contraseña?",
+    "no_account": "No tienes una cuenta?",
+    "signup": "Regístrate"
+  }
+}

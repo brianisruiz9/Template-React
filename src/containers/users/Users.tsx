@@ -13,6 +13,7 @@ import {
 import { Icon } from "@iconify/react";
 import { GridColDef } from "@mui/x-data-grid";
 import type { UserRow } from "../../types/user";
+import { useTranslation } from "react-i18next";
 import DataGrid from "../../components/DataGrid";
 import UserForm from "./UserForm";
 import DialogDelete from "../../components/DialogDelete";
@@ -77,6 +78,7 @@ const INITIAL_ROWS: UserRow[] = [
 ];
 
 export default function Users() {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const [rows, setRows] = useState<UserRow[]>(INITIAL_ROWS);
   // menú 3 puntos
@@ -123,20 +125,20 @@ export default function Users() {
   const columns: GridColDef<UserRow>[] = [
     {
       field: "name",
-      headerName: "Name",
+      headerName: t("users.name"),
       flex: 1,
       disableColumnMenu: true,
     },
     {
       field: "company",
-      headerName: "Company",
+      headerName: t("users.company"),
       flex: 1,
       disableColumnMenu: true,
     },
-    { field: "role", headerName: "Role", flex: 1, disableColumnMenu: true },
+    { field: "role", headerName: t("users.role"), flex: 1, disableColumnMenu: true },
     {
       field: "verified",
-      headerName: "Verified",
+      headerName: t("users.verified"),
       flex: 0.5,
       sortable: false,
       disableColumnMenu: true,
@@ -144,7 +146,7 @@ export default function Users() {
     },
     {
       field: "status",
-      headerName: "Status",
+      headerName: t("users.status"),
       flex: 0.5,
       sortable: false,
       filterable: false,
@@ -197,7 +199,7 @@ export default function Users() {
         }}
       >
         <Typography variant="h5" sx={{ flexGrow: 1, fontWeight: 700 }}>
-          Users
+          {t("users.users")}
         </Typography>
 
         <Button
@@ -207,7 +209,7 @@ export default function Users() {
           sx={{ px: 2 }}
           onClick={handleOpenEdit}
         >
-          New user
+          {t("users.new_user")}
         </Button>
       </Box>
 
@@ -230,7 +232,7 @@ export default function Users() {
               height="24"
             />
           </ListItemIcon>
-          <ListItemText primary="Edit" />
+          <ListItemText primary={t("datagrid.edit")} />
         </MenuItem>
         <MenuItem onClick={handleOpenDelete}>
           <ListItemIcon>
@@ -240,7 +242,7 @@ export default function Users() {
               height="24"
             />
           </ListItemIcon>
-          <ListItemText primary="Delete" />
+          <ListItemText primary={t("datagrid.delete")} />
         </MenuItem>
       </Menu>
 

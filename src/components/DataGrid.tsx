@@ -15,7 +15,7 @@ import type { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { Icon } from "@iconify/react";
 import { exportToXlsx } from "../utils/exportToXlsx";
 import { useAppSelector } from "../store/hooks";
-
+import { useTranslation } from "react-i18next";
 
 interface CustomDataGridProps<T extends { id: number | string }> {
   rows: T[];
@@ -30,7 +30,8 @@ interface CustomDataGridProps<T extends { id: number | string }> {
 export default function CustomDataGrid<T extends { id: number | string }>(
   props: CustomDataGridProps<T>
 ) {
-  const { rows, setRows, columns, search, setSearch, loading, tableName } = props;
+  const { rows, setRows, columns, search, setSearch, loading, tableName } =
+    props;
   const [rowSelectionModel, setRowSelectionModel] =
     React.useState<GridRowSelectionModel>({ type: "include", ids: new Set() });
   const selectedCount =
@@ -40,6 +41,7 @@ export default function CustomDataGrid<T extends { id: number | string }>(
   const [snackOpen, setSnackOpen] = React.useState(false);
   const [snackMsg, setSnackMsg] = React.useState("");
   const mode = useAppSelector((s) => s.ui.mode);
+  const { t } = useTranslation();
 
   const handleExportToXlsx = () => {
     exportToXlsx({
@@ -90,7 +92,7 @@ export default function CustomDataGrid<T extends { id: number | string }>(
           onChange={(e) => {
             setSearch(e.target.value);
           }}
-          placeholder="Search user..."
+          placeholder={t("users.search_user")}
           size="small"
           sx={{
             width: { xs: "100%", sm: 420 },
@@ -138,10 +140,11 @@ export default function CustomDataGrid<T extends { id: number | string }>(
             }}
           >
             <Typography>
-              {selectedCount} row{selectedCount > 1 ? "s" : ""} selected
+              {selectedCount} {t("datagrid.row")}
+              {selectedCount > 1 ? "s" : ""} {t("datagrid.selected")}
             </Typography>
 
-            <Tooltip title="Delete selected">
+            <Tooltip title={t("datagrid.delete")}>
               <IconButton size="small" onClick={handleDeleteSelected}>
                 <Icon icon="solar:trash-bin-trash-bold-duotone" />
               </IconButton>

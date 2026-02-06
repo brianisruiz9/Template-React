@@ -24,6 +24,7 @@ store.subscribe(() => {
     "ui_v1",
     JSON.stringify({
       mode: state.ui.mode,
+      lang: state.ui.lang,
     })
   );
 });

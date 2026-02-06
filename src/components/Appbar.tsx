@@ -19,7 +19,8 @@ import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { logout } from "../store/auth/authSlice";
-import { setMode } from "../store/ui/uiSlice";
+import { setMode, toggleLanguage } from "../store/ui/uiSlice";
+import { useTranslation } from "react-i18next";
 import DialogQuestion from "./DialogQuestion";
 
 type TopAppBarProps = {
@@ -32,7 +33,6 @@ type TopAppBarProps = {
 export default function TopAppBar({
   onToggleSidebar,
   notificationsCount = 2,
-  onSearchClick,
   onNotificationsClick,
 }: TopAppBarProps) {
   const theme = useTheme();
@@ -44,6 +44,7 @@ export default function TopAppBar({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [openDialog, setOpenDialog] = useState(false);
+  const { t } = useTranslation();
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -81,7 +82,7 @@ export default function TopAppBar({
       <Toolbar sx={{ minHeight: 64 }}>
         {/* Toggle sidebar */}
         {isMobile && (
-          <Tooltip title="Menu">
+          <Tooltip title={t("menu.menu")}>
             <IconButton
               onClick={onToggleSidebar}
               aria-label="toggle sidebar"
@@ -102,21 +103,32 @@ export default function TopAppBar({
         {/* Right actions */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           {/* Language */}
-          <Tooltip title="Language">
-            <IconButton onClick={onSearchClick} aria-label="search">
+          <Tooltip title={t("menu.language")}>
+            <IconButton
+              onClick={() => dispatch(toggleLanguage())}
+              aria-label="lang"
+            >
               <Icon icon="solar:global-bold-duotone" width="24" height="24" />
             </IconButton>
           </Tooltip>
 
           {/* Dark mode */}
-          <Tooltip title="Dark Mode">
+          <Tooltip
+            title={
+              modeApp === "light" ? t("menu.dark_mode") : t("menu.light_mode")
+            }
+          >
             <IconButton
               aria-label="dark"
               sx={{ p: 0.5 }}
               onClick={handleDarkMode}
             >
               <Icon
-                icon={modeApp === "light" ? "solar:moon-bold" : "solar:sun-2-bold-duotone"}
+                icon={
+                  modeApp === "light"
+                    ? "solar:moon-bold"
+                    : "solar:sun-2-bold-duotone"
+                }
                 width="24"
                 height="24"
               />
@@ -124,7 +136,7 @@ export default function TopAppBar({
           </Tooltip>
 
           {/* Notifications */}
-          <Tooltip title="Notifications">
+          <Tooltip title={t("menu.notifications")}>
             <IconButton
               onClick={onNotificationsClick}
               aria-label="notifications"
@@ -144,7 +156,7 @@ export default function TopAppBar({
           </Tooltip>
 
           {/* Avatar with ring */}
-          <Tooltip title="Account">
+          <Tooltip title={t("menu.account")}>
             <IconButton
               onClick={handleOpenMenu}
               aria-label="account"
@@ -205,15 +217,15 @@ export default function TopAppBar({
           <ListItemIcon>
             <Icon icon="solar:logout-2-bold-duotone" height={24} width={24} />
           </ListItemIcon>
-          Cerrar sesión
+          {t("menu.logout")}
         </MenuItem>
       </Menu>
 
       <DialogQuestion
         dialogOpen={openDialog}
         setDialogOpen={setOpenDialog}
-        message={"¿Estás seguro de que deseas cerrar sesión?"}
-        tittle={"Cerrar sesión"}
+        message={t("alerts.question_logout")}
+        tittle={t("menu.logout")}
         handleConfirm={handleConfirmLogout}
         handleCancel={() => setOpenDialog(false)}
         setSnackOpen={() => {}}

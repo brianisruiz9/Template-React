@@ -11,13 +11,9 @@ import { Icon } from "@iconify/react";
 import { NavLink } from "react-router-dom";
 import Logo from "../assets/images/diseno-de-logo.png";
 import { useAppSelector } from "../store/hooks";
+import { useTranslation } from "react-i18next";
 
-export type SidebarKey =
-  | "dashboard"
-  | "user"
-  | "posts"
-  | "signin"
-  | "notfound";
+export type SidebarKey = "dashboard" | "user" | "posts" | "signin" | "notfound";
 
 type SidebarItem = {
   key: SidebarKey;
@@ -26,50 +22,57 @@ type SidebarItem = {
   path: string;
 };
 
-const items: SidebarItem[] = [
-  {
-    key: "dashboard",
-    label: "Dashboard",
-    icon: <Icon icon="solar:graph-up-bold-duotone" height={24} width={24} />,
-    path: "/dashboard",
-  },
-  {
-    key: "user",
-    label: "User",
-    icon: <Icon icon="solar:user-circle-bold-duotone" height={24} width={24} />,
-    path: "/users",
-  },
-  {
-    key: "posts",
-    label: "Posts",
-    icon: (
-      <Icon icon="solar:document-text-bold-duotone" height={24} width={24} />
-    ),
-    path: "/posts",
-  },
-  {
-    key: "signin",
-    label: "Sign in",
-    icon: <Icon icon="solar:login-3-bold-duotone" height={24} width={24} />,
-    path: "/sign-in",
-  },
-  {
-    key: "notfound",
-    label: "Not found",
-    icon: (
-      <Icon icon="solar:tuning-square-2-bold-duotone" height={24} width={24} />
-    ),
-    path: "/not-found",
-  },
-];
-
 type SidebarProps = {
   onItemClick?: () => void;
 };
 
 export default function Sidebar({ onItemClick }: SidebarProps) {
   const mode = useAppSelector((s) => s.ui.mode);
-  
+  const { t } = useTranslation();
+
+  const items: SidebarItem[] = [
+    {
+      key: "dashboard",
+      label: t("menu.dashboard"),
+      icon: <Icon icon="solar:graph-up-bold-duotone" height={24} width={24} />,
+      path: "/dashboard",
+    },
+    {
+      key: "user",
+      label: t("menu.users"),
+      icon: (
+        <Icon icon="solar:user-circle-bold-duotone" height={24} width={24} />
+      ),
+      path: "/users",
+    },
+    {
+      key: "posts",
+      label: t("menu.posts"),
+      icon: (
+        <Icon icon="solar:document-text-bold-duotone" height={24} width={24} />
+      ),
+      path: "/posts",
+    },
+    {
+      key: "signin",
+      label: t("menu.sign_in"),
+      icon: <Icon icon="solar:login-3-bold-duotone" height={24} width={24} />,
+      path: "/sign-in",
+    },
+    {
+      key: "notfound",
+      label: t("menu.not_found"),
+      icon: (
+        <Icon
+          icon="solar:tuning-square-2-bold-duotone"
+          height={24}
+          width={24}
+        />
+      ),
+      path: "/not-found",
+    },
+  ];
+
   return (
     <Box
       sx={{
@@ -120,7 +123,12 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
 
               <ListItemText
                 primary={
-                  <Typography sx={{ fontSize: 15, color: mode === "light" ? "#637385" : "#FFFFFF" }}>
+                  <Typography
+                    sx={{
+                      fontSize: 15,
+                      color: mode === "light" ? "#637385" : "#FFFFFF",
+                    }}
+                  >
                     {it.label}
                   </Typography>
                 }

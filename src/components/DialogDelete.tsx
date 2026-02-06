@@ -10,6 +10,7 @@ import {
   Alert,
 } from "@mui/material";
 import type { UserRow } from "../types/user";
+import { useTranslation } from "react-i18next";
 
 interface DialogDeleteProps {
   deleteOpen: boolean;
@@ -25,6 +26,7 @@ export default function DialogDelete(props: DialogDeleteProps) {
     props;
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMsg, setSnackMsg] = useState("");
+  const { t } = useTranslation();
 
   const closeDelete = () => {
     setDeleteOpen(false);
@@ -34,7 +36,7 @@ export default function DialogDelete(props: DialogDeleteProps) {
   const handleDelete = () => {
     if (!selectedRow) return;
     setRows((prev) => prev.filter((r) => r.id !== selectedRow.id));
-    setSnackMsg(`Usuario eliminado exitosamente`);
+    setSnackMsg(t("alerts.delete_success"));
     setSnackOpen(true);
     closeDelete();
     setSelectedRow(null);
@@ -43,7 +45,7 @@ export default function DialogDelete(props: DialogDeleteProps) {
   return (
     <>
       <Dialog open={deleteOpen} onClose={closeDelete} fullWidth maxWidth="sm">
-        <DialogTitle sx={{ fontWeight: 700 }}>Eliminar usuario</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 700 }}>{t("users.delete_user")}</DialogTitle>
 
         <DialogContent sx={{ pt: 1 }}>
           <Typography sx={{ color: "text.secondary" }}>
@@ -53,10 +55,10 @@ export default function DialogDelete(props: DialogDeleteProps) {
 
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={handleDelete} variant="contained">
-            Delete
+            {t("buttons.delete")}
           </Button>
           <Button onClick={closeDelete} variant="contained">
-            Cancel
+            {t("buttons.cancel")}
           </Button>
         </DialogActions>
       </Dialog>
